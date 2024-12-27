@@ -1,0 +1,14 @@
+<h1>Welcome, {{ patient.name }}</h1>
+<p>Email: {{ patient.user.email }}</p>
+<p>Phone: {{ patient.phone }}</p>
+<p>Address: {{ patient.address }}</p>
+<p>Date of Birth: {{ patient.dob }}</p>
+
+<h2>Upcoming Appointments</h2>
+<ul>
+    {% for appointment in patient.appointments.all %}
+        <li>{{ appointment.date }} - {{ appointment.doctor.name }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'logout' %}">Logout</a>

@@ -1,0 +1,10 @@
+
+{% block content %}
+  <h2>{{ patient.first_name }} {{ patient.last_name }}</h2>
+  <p>Date of Birth: {{ patient.date_of_birth }}</p>
+  <p>Email: {{ patient.email }}</p>
+  <p>Phone Number: {{ patient.phone_number }}</p>
+  <p>Address: {{ patient.address }}</p>
+  <a href="{% url 'patient_update' patient.pk %}">Edit</a>
+  <a href="{% url 'patient_delete' patient.pk %}">Delete</a>
+{% endblock %}

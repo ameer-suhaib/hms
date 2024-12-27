@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --color-1: #90d5ff;  /* Lightest blue */
+        --color-2: #57b9ff;  /* Medium blue */
+        --color-3: #77b1d4;  /* Darker blue */
+        --color-4: #517891;  /* Darkest blue */
+        --text-light: #ffffff;
+        --text-dark: #2c3e50;
+    }
+
+    .sidebar {
+        background-color: var(--color-4);
+        min-height: 100vh;
+        color: var(--text-light);
+    }
+
+    .sidebar .nav-link {
+        color: rgba(255, 255, 255, 0.8);
+        padding: 1rem 1.5rem;
+        margin: 0.2rem 0;
+        border-radius: 0.35rem;
+    }
+
+    .sidebar .nav-link:hover {
+        color: var(--text-light);
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar .nav-link.active {
+        background-color: var(--color-3);
+        color: var(--text-light);
+    }
+
+    .sidebar .nav-link i {
+        margin-right: 0.5rem;
+    }
+
+    .stat-card {
+        border: none;
+        border-radius: 0.35rem;
+        box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 0.35rem;
+    }
+
+    .card-header {
+        background-color: white;
+        border-bottom: 1px solid #e3e6f0;
+        padding: 1rem 1.25rem;
+    }
+
+    .table th {
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        color: var(--color-4);
+    }
+
+    main {
+        padding: 1.5rem !important;
+        background-color: #f8fafb;
+    }
+
+    .bg-blue-1 { background-color: var(--color-1); }
+    .bg-blue-2 { background-color: var(--color-2); }
+    .bg-blue-3 { background-color: var(--color-3); }
+    .bg-blue-4 { background-color: var(--color-4); }
+
+    .btn-outline-primary {
+        color: var(--color-4);
+        border-color: var(--color-4);
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--color-4);
+        border-color: var(--color-4);
+        color: white;
+    }
+
+    .text-primary {
+        color: var(--color-4) !important;
+    }
+
+    .badge {
+        padding: 0.5em 1em;
+    }
+
+    .badge.bg-success {
+        background-color: var(--color-1) !important;
+        color: var(--text-dark);
+    }
+
+    .badge.bg-warning {
+        background-color: var(--color-2) !important;
+        color: var(--text-dark);
+    }
+
+    .badge.bg-info {
+        background-color: var(--color-3) !important;
+        color: var(--text-light);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 sidebar px-0">
+            <div class="position-sticky pt-4">
+                <div class="px-4 mb-4">
+                    <h5 class="text-uppercase fw-bold">Admin Panel</h5>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <a class="nav-link active" href="#">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-speedometer2"></i> Doctors
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" href="{% url 'patient_list' %}">
+                            <i class="bi bi-people"></i> Patients
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-person-badge"></i> Staff
+                        </a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-gear"></i> Settings
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                <h1 class="h3 text-primary">Dashboard Overview</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-download me-1"></i> Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card card bg-blue-1 h-100">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="text-xs text-uppercase mb-1 text-dark">Total Patients</div>
+                                    <div class="h3 mb-0 text-dark">{{ total_patients|default:"0" }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="bi bi-people fs-1 text-dark"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card card bg-blue-2 h-100">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="text-xs text-uppercase mb-1 text-dark">Staff Members</div>
+                                    <div class="h3 mb-0 text-dark">{{ total_staff|default:"0" }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="bi bi-person-badge fs-1 text-dark"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card card bg-blue-3 text-white h-100">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="text-xs text-uppercase mb-1">Appointments</div>
+                                    <div class="h3 mb-0">{{ total_appointments|default:"0" }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="bi bi-calendar fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card card bg-blue-4 text-white h-100">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="text-xs text-uppercase mb-1">Revenue</div>
+                                    <div class="h3 mb-0">${{ total_revenue|default:"0" }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="bi bi-currency-dollar fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 fw-bold text-primary">Recent Activity</h6>
+                        </div>
+                        <div class="card-body">
+                            {% if recent_activities %}
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Time</th>
+                                                <th>Activity</th>
+                                                <th>User</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for activity in recent_activities %}
+                                            <tr>
+                                                <td>{{ activity.timestamp|date:"M d, Y H:i" }}</td>
+                                                <td>{{ activity.description }}</td>
+                                                <td>{{ activity.user }}</td>
+                                                <td>
+                                                    <span class="badge bg-{{ activity.status_color }} rounded-pill">
+                                                        {{ activity.status }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted text-center py-3">No recent activities</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Add Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+<!-- Add Chart.js if you want to add charts later -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}

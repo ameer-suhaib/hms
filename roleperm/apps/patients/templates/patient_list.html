@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+  <a href="{% url 'patient_create' %}">Add New Patient</a>
+  <h2>Patient List</h2>
+  <ul>
+      <table>
+        <tr>
+          <td>View</td>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Date of Birth</th>
+          <th>Phone Number</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+
+        {% for patient in patients %}
+        <tr>
+
+          <td>
+            <a href="{% url 'patient_detail' patient.pk %}" class="btn small btn-info btn-sm">View</a>
+          </td>
+          <td>{{patient.first_name}}</td>
+          <td>{{patient.last_name}}</td>
+          <td>{{patient.date_of_birth}}</td>
+          <td>{{patient.phone_number}}</td>
+          <td>{{patient.email}}</td>
+          <td>{{patient.address}}</td>
+          <td>
+            <a href="" class="btn btn-info btn-sm">Edit</a>
+          </td>
+          <td>
+            <a href="" class="btn btn-danger btn-sm">Delete</a>
+          </td>
+
+        </tr>
+        {% endfor %}
+      </table>
+
+  </ul>
+  
+{% endblock %}
