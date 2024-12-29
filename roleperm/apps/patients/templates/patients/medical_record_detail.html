@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Medical Record Details</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Record Type:</strong> {{ record.get_record_type_display }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Date:</strong> {{ record.date_of_record|date:"d M Y, H:i" }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Doctor:</strong> {{ record.doctor_name }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Description:</strong>
+                        <p>{{ record.description }}</p>
+                    </div>
+                    {% if record.additional_notes %}
+                    <div class="mb-3">
+                        <strong>Additional Notes:</strong>
+                        <p>{{ record.additional_notes }}</p>
+                    </div>
+                    {% endif %}
+                    <div class="text-center">
+                        <a href="{% url 'patients:dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

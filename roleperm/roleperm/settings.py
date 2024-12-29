@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "apps.authentication",
     "apps.patients",
-    "apps.accounts"
-]
+    "apps.accounts",
+    "apps.doctors",
+    "apps.hs_admin"
+]   
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -54,14 +55,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "roleperm.urls"
 
-AUTH_USER_MODEL = "authentication.CustomUser"
+AUTH_USER_MODEL = "auth.User"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             BASE_DIR/"templates",
-            BASE_DIR/"apps/templates"
+            BASE_DIR/"apps/templates",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
